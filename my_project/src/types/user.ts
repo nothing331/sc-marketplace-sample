@@ -1,14 +1,20 @@
 import { Package } from "./package";
 
 export interface User {
+  // id: string;
+  // email: string;
+  // displayName: string | null;
+  // avatarUrl: string | null;
+  // createdAt: string;
+  // publishedPackages: Package[];
+  // pendingPackages: Package[];
+  // rejectedPackages: Package[];
+  // starredPackages: Package[];
   id: string;
+  name: string;
   email: string;
-  displayName: string | null;
-  avatarUrl: string | null;
-  createdAt: string;
-  publishedPackages: Package[];
-  pendingPackages: Package[];
-  rejectedPackages: Package[];
+  avatar: string;
+  packages: Package[];
   starredPackages: Package[];
 }
 

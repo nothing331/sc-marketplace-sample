@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { Sparkles,Bot } from 'lucide-react';
+import SearchBar from '../components/SearchBar';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -25,8 +26,11 @@ export const LandingPage: React.FC = () => {
               className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-transparent border-2 border-white rounded-lg hover:bg-white hover:text-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white animate-fade-in-delayed"
             >
               <span className="mr-2">Explore Packages</span>
+              
               <Sparkles className="w-5 h-5 transition-transform group-hover:rotate-12" />
             </button>
+            
+            <SearchBar/>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 w-full max-w-6xl">

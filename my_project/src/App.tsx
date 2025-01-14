@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 import { RootState } from './store/store';
 import { LandingPage } from './pages/LandingPage';
+import MarketplacePage from './pages/MarketplacePage';
+import Layout from './components/Layout';
 // import { MarketplacePage } from './pages/MarketplacePage';
 // import { ProfilePage } from './pages/ProfilePage';
 // import { PackageDetailsPage } from './pages/PackageDetailsPage';
@@ -12,18 +14,29 @@ export default function App() {
   const theme = useSelector((state: RootState) => state.theme);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
-  useEffect(() => {
-    document.documentElement.className = theme;
-  }, [theme]);
+  // useEffect(() => {
+  //   document.documentElement.className = theme;
+  // }, [theme]);
 
   return (
     <BrowserRouter>
-      <Routes>
+    
+    <Routes>
         <Route path="/" element={<LandingPage />} />
-        {/* <Route path="/marketplace" element={<MarketplacePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        {/* <Route element={<Layout children={undefined} />}> */}
+          {/* <Route path="/marketplace" element={<MarketplacePage />} /> */}
+        {/* </Route> */}
+        <Route
+          path='/marketplace'
+          element={
+            <Layout>
+              <MarketplacePage/>
+            </Layout>
+          }/>
+        {/* <Route path="/profile" element={<ProfilePage />} />
         <Route path="/package/:id" element={<PackageDetailsPage />} /> */}
       </Routes>
+       
       {/* <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} /> */}
     </BrowserRouter>
   );
