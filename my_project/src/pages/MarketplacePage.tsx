@@ -6,6 +6,7 @@ import { RootState } from '../store/store';
 import { setPackages, setLoading, updateFilters } from '../store/slices/packagesSlice';
 import { useInView } from 'react-intersection-observer';
 import { Package } from '../types/package';
+import { useLocation } from 'react-router';
 
 // Mock data generator
 const generateMockPackages = (page: number): Package[] => {
@@ -34,7 +35,13 @@ const MarketplacePage: React.FC = () => {
   const [page, setPage] = useState(1);
   const { ref, inView } = useInView();
 
+  const locate = useLocation()
+  const queryParams = new URLSearchParams(locate.search);
+  const input = queryParams.get("input");
+  const dropDown = queryParams.get("DropDown");
+
   useEffect(() => {
+    console.log(input)
     const loadMore = async () => {
       if (loading) return;
       dispatch(setLoading(true));
@@ -62,7 +69,8 @@ const MarketplacePage: React.FC = () => {
               type="text"
               placeholder="Search packages..."
               className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-              value={filters.search}
+              // value={filters.search}
+              value={input || ""}
               onChange={(e) => dispatch(updateFilters({ search: e.target.value }))}
             />
           </div>

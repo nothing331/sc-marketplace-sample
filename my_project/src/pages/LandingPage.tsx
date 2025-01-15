@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { Sparkles,Bot } from 'lucide-react';
-import SearchBar from '../components/SearchBar';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -29,8 +28,6 @@ export const LandingPage: React.FC = () => {
               
               <Sparkles className="w-5 h-5 transition-transform group-hover:rotate-12" />
             </button>
-            
-            <SearchBar/>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 w-full max-w-6xl">

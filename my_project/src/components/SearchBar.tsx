@@ -1,45 +1,58 @@
-import React from 'react'
+import { AlignCenter, SendIcon } from 'lucide-react';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router';
 
-function SearchBar() {
+// function SearchBar() {
+//     const [input, setInput] = useState<string>("");
+//     const [dropDown, setDropdown] = useState<string>("Latest");
+//     const navigate = useNavigate();
+
+//     const handleSerchClick =()=>{
+//         navigate(`/marketplace?input=${encodeURIComponent(input)}&DropDown=${encodeURIComponent(dropDown)}`)
+//     }
+    
+//   return (
+//     <div className=" bg-white rounded flex items-center w-92 p-3 shadow-sm border border-gray-200">
+//         <button className="outline-none focus:outline-none" onClick={handleSerchClick}><svg className=" w-5 text-gray-600 h-5 cursor-pointer" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
+//         <input type="search" name="" id="" placeholder="search packages" x-model="q" className="w-full pl-4 text-sm outline-none focus:outline-none bg-transparent" onChange={(e)=>{setInput(e.target.value)}}/>
+//         <div className="select">
+//         <select name="" id="" x-model="image_type" className="text-sm outline-none focus:outline-none bg-transparent" onChange={(e)=>{setDropdown(e.target.value)}}>
+//             <option value="latest" selected >Latest</option>
+//             <option value="top_rated">Top Rated</option>
+//             <option value="most_download">Most Download</option>
+//             </select>
+//         </div>
+//     </div>
+//   )
+// }
+
+// import React from "react";
+
+const SearchBar: React.FC = () => {
+    const [input, setInput] = useState<string>("");
+    const navigate = useNavigate();
+
+    const handleSerchClick =()=>{
+        navigate(`/marketplace?input=${encodeURIComponent(input)}`)
+    }
   return (
-    <div>
-
-        <form className="max-w-lg mx-auto">
-            <div className="flex">
-                <label htmlFor="search-dropdown" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
-                <button id="dropdown-button" data-dropdown-toggle="dropdown" className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button">All categories <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-        </svg></button>
-                <div id="dropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
-                    <li>
-                        <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mockups</button>
-                    </li>
-                    <li>
-                        <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Templates</button>
-                    </li>
-                    <li>
-                        <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Design</button>
-                    </li>
-                    <li>
-                        <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Logos</button>
-                    </li>
-                    </ul>
-                </div>
-                <div className="relative w-full">
-                    <input type="search" id="search-dropdown" className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search Mockups, Logos, Design Templates..." required />
-                    <button type="submit" className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
-                        <span className="sr-only">Search</span>
-                    </button>
-                </div>
-            </div>
-        </form>
-
+    <div className="flex items-center justify-center w-full">
+      <div className="relative sm:w-4/5">
+        <input
+          type="text"
+          placeholder="Search for a template..."
+          className="w-full px-4 py-2 pr-10 text-sm text-gray-100 placeholder-gray-400 bg-gray-800 border border-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          onChange={(e)=>{setInput(e.target.value)}}
+        />
+        <button
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-4 py-1 text-sm rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          onClick={handleSerchClick}
+        >
+          Search
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;

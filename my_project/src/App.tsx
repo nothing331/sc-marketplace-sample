@@ -5,6 +5,10 @@ import { RootState } from './store/store';
 import { LandingPage } from './pages/LandingPage';
 import MarketplacePage from './pages/MarketplacePage';
 import Layout from './components/Layout';
+import FirstMarketPlace from './pages/FirstMarketPlace';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import ProfilePage from './pages/ProfilePage';
 // import { MarketplacePage } from './pages/MarketplacePage';
 // import { ProfilePage } from './pages/ProfilePage';
 // import { PackageDetailsPage } from './pages/PackageDetailsPage';
@@ -23,6 +27,7 @@ export default function App() {
     
     <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/firstclick" element={<FirstMarketPlace/>}/>
         {/* <Route element={<Layout children={undefined} />}> */}
           {/* <Route path="/marketplace" element={<MarketplacePage />} /> */}
         {/* </Route> */}
@@ -31,6 +36,23 @@ export default function App() {
           element={
             <Layout>
               <MarketplacePage/>
+            </Layout>
+          }/>
+          <Route
+          path='/login'
+          element={
+              <LoginPage/>
+          }/>
+          <Route
+          path='/signup'
+          element={
+              <SignupPage/>
+          }/>
+          <Route
+          path='/profile'
+          element={
+            <Layout>
+              <ProfilePage/>
             </Layout>
           }/>
         {/* <Route path="/profile" element={<ProfilePage />} />
