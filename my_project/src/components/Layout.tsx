@@ -70,12 +70,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     )}
                     <span className="ml-2">{user?.name}</span>
                   </Link>
-                  <button
+                  {/* <button
                     onClick={() => dispatch(logout())}
                     className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
                   >
                     Logout
-                  </button>
+                  </button> */}
                 </>
               ) : (
                 <>

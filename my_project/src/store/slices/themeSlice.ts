@@ -23,17 +23,80 @@
 // export default themeSlice.reducer;
 
 
+// import { createSlice } from '@reduxjs/toolkit';
+
+// interface ThemeState {
+//   isDarkMode: boolean;
+// }
+
+// // Get theme from localStorage, if not present use system preference
+// const getInitialTheme = (): boolean => {
+//   const savedTheme = localStorage.getItem('theme');
+//   if (savedTheme !== null) {
+//     return JSON.parse(savedTheme);
+//   }
+//   return window.matchMedia('(prefers-color-scheme: dark)').matches;
+// };
+
+// const initialState: ThemeState = {
+//   isDarkMode: getInitialTheme(),
+// };
+
+// const themeSlice = createSlice({
+//   name: 'theme',
+//   initialState,
+//   reducers: {
+//     toggleTheme: (state) => {
+//       state.isDarkMode = !state.isDarkMode;
+//       // Save to localStorage
+//       localStorage.setItem('theme', JSON.stringify(state.isDarkMode));
+//       // Update document class for Tailwind
+//       if (state.isDarkMode) {
+//         document.documentElement.classList.add('dark');
+//       } else {
+//         document.documentElement.classList.remove('dark');
+//       }
+//     },
+//     // Optional: Add action to set theme directly
+//     setTheme: (state, action: { payload: boolean }) => {
+//       state.isDarkMode = action.payload;
+//       localStorage.setItem('theme', JSON.stringify(action.payload));
+//       if (action.payload) {
+//         document.documentElement.classList.add('dark');
+//       } else {
+//         document.documentElement.classList.remove('dark');
+//       }
+//     }
+//   },
+// });
+
+// // Initialize theme on app load
+// if (initialState.isDarkMode) {
+//   document.documentElement.classList.add('dark');
+// } else {
+//   document.documentElement.classList.remove('dark');
+// }
+
+// export const { toggleTheme, setTheme } = themeSlice.actions;
+// export default themeSlice.reducer;
+
+
+
 import { createSlice } from '@reduxjs/toolkit';
 
 interface ThemeState {
   isDarkMode: boolean;
 }
 
-// Get theme from localStorage, if not present use system preference
 const getInitialTheme = (): boolean => {
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme !== null) {
-    return JSON.parse(savedTheme);
+    // Check if it's a boolean string first
+    if (savedTheme === 'true' || savedTheme === 'false') {
+      return JSON.parse(savedTheme);
+    }
+    // If it's "dark" or "light", convert accordingly
+    return savedTheme === 'dark';
   }
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 };
@@ -48,19 +111,17 @@ const themeSlice = createSlice({
   reducers: {
     toggleTheme: (state) => {
       state.isDarkMode = !state.isDarkMode;
-      // Save to localStorage
-      localStorage.setItem('theme', JSON.stringify(state.isDarkMode));
-      // Update document class for Tailwind
+      // Store as boolean string
+      localStorage.setItem('theme', state.isDarkMode.toString());
       if (state.isDarkMode) {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
       }
     },
-    // Optional: Add action to set theme directly
     setTheme: (state, action: { payload: boolean }) => {
       state.isDarkMode = action.payload;
-      localStorage.setItem('theme', JSON.stringify(action.payload));
+      localStorage.setItem('theme', action.payload.toString());
       if (action.payload) {
         document.documentElement.classList.add('dark');
       } else {
