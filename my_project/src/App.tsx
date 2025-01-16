@@ -9,18 +9,26 @@ import FirstMarketPlace from './pages/FirstMarketPlace';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ProfilePage from './pages/ProfilePage';
+import { ThemeDemo } from './pages/ThemeDemo';
 // import { MarketplacePage } from './pages/MarketplacePage';
 // import { ProfilePage } from './pages/ProfilePage';
 // import { PackageDetailsPage } from './pages/PackageDetailsPage';
 // import { AuthModal } from './components/AuthModal';
 
 export default function App() {
-  const theme = useSelector((state: RootState) => state.theme);
+  // const theme = useSelector((state: RootState) => state.theme);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
-  // useEffect(() => {
-  //   document.documentElement.className = theme;
-  // }, [theme]);
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode)
+
+  useEffect(() => {
+    // Apply theme class on mount and theme changes
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   return (
     <BrowserRouter>
@@ -54,6 +62,11 @@ export default function App() {
             <Layout>
               <ProfilePage/>
             </Layout>
+          }/>
+          <Route
+          path='/theme'
+          element={
+            <ThemeDemo/>
           }/>
         {/* <Route path="/profile" element={<ProfilePage />} />
         <Route path="/package/:id" element={<PackageDetailsPage />} /> */}

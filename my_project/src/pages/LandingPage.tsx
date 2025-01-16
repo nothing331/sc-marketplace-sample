@@ -21,7 +21,7 @@ export const LandingPage: React.FC = () => {
               Discover, share, and integrate powerful Flutter packages to build exceptional applications.
             </p>
             <button
-              onClick={() => navigate('/marketplace')}
+              onClick={() => navigate('/firstclick')}
               className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-transparent border-2 border-white rounded-lg hover:bg-white hover:text-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white animate-fade-in-delayed"
             >
               <span className="mr-2">Explore Packages</span>

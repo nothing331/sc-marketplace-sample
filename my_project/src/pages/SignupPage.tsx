@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router';
 import { login } from '../store/slices/authSlice';
-import DemoLogin from '../components/DemoLogin';
+import SignupModule from '../components/SignupModule';
 
 
 const SignupPage: React.FC = () => {
@@ -119,7 +119,7 @@ const SignupPage: React.FC = () => {
                     </div>
                 </section>
             </div> */}
-            <DemoLogin/>
+            <SignupModule/>
             </div>
         </div>
         
