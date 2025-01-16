@@ -65,6 +65,16 @@ const MarketplacePage: React.FC = () => {
     }
   }, [inView]);
 
+  // const handleSearch = (value: string) => {
+  //   dispatch(updateFilters({ search: value }));
+  //   setPage(1);
+  //   // setHasMore(true);
+  //   dispatch(setPackages([]));
+  //   // loadPackages(1);
+  // };
+
+  // const debouncedSearch = debounce(handleSearch, 500);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex flex-col md:flex-row gap-6 mb-8">
@@ -76,7 +86,8 @@ const MarketplacePage: React.FC = () => {
               placeholder="Search packages..."
               className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
               value={filters.search}
-              onChange={(e) => dispatch(updateFilters({ search: e.target.value }))}
+              onChange={(e) => {dispatch(updateFilters({ search: e.target.value }))}}
+              // onChange={(e) => debouncedSearch(e.target.value)}
             />
           </div>
         </div>
@@ -140,6 +151,8 @@ const MarketplacePage: React.FC = () => {
       <div ref={ref} className="h-4" />
     </div>
   );
+
+  
 }
 
 export default MarketplacePage;

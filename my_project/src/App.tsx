@@ -9,7 +9,12 @@ import FirstMarketPlace from './pages/FirstMarketPlace';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ProfilePage from './pages/ProfilePage';
-import { ThemeDemo } from './pages/ThemeDemo';
+import PackageDetail from './pages/PakageDetail';
+import ChangeLog from './pages/Package_pages/ChangeLog';
+import Installing from './pages/Package_pages/Installing';
+import Version from './pages/Package_pages/Version';
+import Scores from './pages/Package_pages/Scores';
+import Example from './pages/Package_pages/Example';
 // import { MarketplacePage } from './pages/MarketplacePage';
 // import { ProfilePage } from './pages/ProfilePage';
 // import { PackageDetailsPage } from './pages/PackageDetailsPage';
@@ -64,9 +69,47 @@ export default function App() {
             </Layout>
           }/>
           <Route
-          path='/theme'
+          path='/package/:id'
+          // path='/package/:id/readme'
           element={
-            <ThemeDemo/>
+            <Layout>
+              <PackageDetail/>
+            </Layout>
+          }/>
+          <Route
+          path='/package/:id/changelog'
+          element={
+            <Layout>
+              <ChangeLog/>
+            </Layout>
+          }/>
+          <Route
+          path='/package/:id/installing'
+          element={
+            <Layout>
+              <Installing/>
+            </Layout>
+          }/>
+          <Route
+          path='/package/:id/version'
+          element={
+            <Layout>
+              <Version/>
+            </Layout>
+          }/>
+          <Route
+          path='/package/:id/scores'
+          element={
+            <Layout>
+              <Scores/>
+            </Layout>
+          }/>
+          <Route
+          path='/package/:id/example'
+          element={
+            <Layout>
+              <Example/>
+            </Layout>
           }/>
         {/* <Route path="/profile" element={<ProfilePage />} />
         <Route path="/package/:id" element={<PackageDetailsPage />} /> */}
