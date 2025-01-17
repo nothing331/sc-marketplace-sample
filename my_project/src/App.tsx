@@ -77,6 +77,14 @@ export default function App() {
             </Layout>
           }/>
           <Route
+          path='/package/:id/readme'
+          // path='/package/:id/readme'
+          element={
+            <Layout>
+              <PackageDetail/>
+            </Layout>
+          }/>
+          <Route
           path='/package/:id/changelog'
           element={
             <Layout>

@@ -60,33 +60,12 @@ const Version: React.FC = () => {
             <p className="text-gray-600 dark:text-gray-400 mb-8">
               {pkg.description}
             </p>
-
-            {/* toggle detail tabs */}
-
-            {/* <div>
-                <nav className="flex -mb-px">
-                {(['Readme' , 'Changelog' , 'Example' , 'Installing' , 'Version' , 'Scores'] as const).map((status) => (
-                  <button
-                    key={status}
-                    onClick={() => handlePkgDetails(status)}
-                    className={`${
-                      activeTab === status
-                        ? 'border-primary-500 text-primary-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                    } whitespace-nowrap py-4 px-6 border-b-2 font-medium text-sm capitalize`}
-                  >
-                    {status}
-                  </button>
-                ))}
-              </nav>
-            </div> */}
-
             <div>
             <nav className="flex -mb-px">
                 {(['Readme', 'Changelog', 'Example', 'Installing', 'Version', 'Scores'] as const).map((status) => (
                 <NavLink
                     key={status}
-                    to={status === 'Readme' ? `/package/${pkg.id}` : `/package/${pkg.id}/${status.toLowerCase()}`}
+                    to={status === 'Readme' ? `/package/${pkg.id}/readme` : `/package/${pkg.id}/${status.toLowerCase()}`}
                     className={({ isActive }) => `
                     whitespace-nowrap py-4 px-6 border-b-2 font-medium text-sm capitalize
                     ${isActive 

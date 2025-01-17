@@ -86,7 +86,7 @@ const Scores: React.FC = () => {
                 {(['Readme', 'Changelog', 'Example', 'Installing', 'Version', 'Scores'] as const).map((status) => (
                 <NavLink
                     key={status}
-                    to={status === 'Readme' ? `/package/${pkg.id}` : `/package/${pkg.id}/${status.toLowerCase()}`}
+                    to={status === 'Readme' ? `/package/${pkg.id}/readme` : `/package/${pkg.id}/${status.toLowerCase()}`}
                     className={({ isActive }) => `
                     whitespace-nowrap py-4 px-6 border-b-2 font-medium text-sm capitalize
                     ${isActive 
