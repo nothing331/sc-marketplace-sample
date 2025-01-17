@@ -34,13 +34,12 @@ export const login = createAsyncThunk(
 
 export const signup = createAsyncThunk(
   'auth/signup',
-  async ({ email, password }: { email: string; password: string }) => {
-    // Replace with actual API call
+  async ({ email, password,name }: { email: string; password: string,name:string }) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     return {
       id: '2',
       email,
-      displayName: 'New User',
+      displayName: name,
       avatarUrl: 'https://example.com/avatar.png',
       createdAt: new Date().toISOString(),
       publishedPackages: [],
@@ -92,3 +91,35 @@ const authSlice = createSlice({
 
 export const { logout } = authSlice.actions;
 export default authSlice.reducer;
+
+
+// import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+// import { User } from '../../types/user';
+
+// interface AuthState {
+//   user: User | null;
+//   isAuthenticated: boolean;
+// }
+
+// const initialState: AuthState = {
+//   user: null,
+//   isAuthenticated: false,
+// };
+
+// const authSlice = createSlice({
+//   name: 'auth',
+//   initialState,
+//   reducers: {
+//     login: (state, action: PayloadAction<User>) => {
+//       state.user = action.payload;
+//       state.isAuthenticated = true;
+//     },
+//     logout: (state) => {
+//       state.user = null;
+//       state.isAuthenticated = false;
+//     },
+//   },
+// });
+
+// export const { login, logout } = authSlice.actions;
+// export default authSlice.reducer;

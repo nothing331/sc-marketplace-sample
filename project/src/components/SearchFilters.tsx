@@ -1,42 +1,45 @@
 import React from 'react';
-import { Search, Filter } from 'lucide-react';
-import { useDispatch } from 'react-redux';
-import { setSearchTerm, setFilter } from '../store/slices/packagesSlice';
+import { useNavigate } from 'react-router-dom';
 
-export const SearchFilters: React.FC = () => {
-  const dispatch = useDispatch();
+const SearchFilters: React.FC = () => {
+  const navigate = useNavigate();
+  const handleTagClick = (tag: string) => {
+    navigate(`/all/${tag}`)
+  };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4">
-      <div className="flex-1 relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-        <input
-          type="text"
-          placeholder="Search packages..."
-          className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          onChange={(e) => dispatch(setSearchTerm(e.target.value))}
-        />
-      </div>
-      <div className="flex gap-2">
-        <select
-          className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          onChange={(e) => dispatch(setFilter({ type: 'category', value: e.target.value }))}
-        >
-          <option value="">All Categories</option>
-          <option value="ui">UI Components</option>
-          <option value="state">State Management</option>
-          <option value="animation">Animation</option>
-          <option value="networking">Networking</option>
-        </select>
-        <select
-          className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          onChange={(e) => dispatch(setFilter({ type: 'sort', value: e.target.value }))}
-        >
-          <option value="popular">Most Popular</option>
-          <option value="recent">Most Recent</option>
-          <option value="rating">Highest Rated</option>
-        </select>
-      </div>
+    <div className="relative bg-gradient-to-r from-gray-900 via-purple-900 to-gray-900 h-screen flex flex-col items-center justify-center text-center">
+      <main className="mt-20 flex flex-col items-center">
+        
+        <div className="mt-6 flex items-center">
+          <input
+            type="text"
+            placeholder="Search for a template..."
+            className="p-4 w-80 rounded-l-md bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
+          <button className="bg-purple-500 hover:bg-purple-600 px-6 py-3 rounded-r-md text-white font-medium">
+            Search
+          </button>
+        </div>
+
+        {/* Tags Section */}
+        <div className="mt-6 text-gray-300">
+          Or search popular templates below
+        </div>
+        <div className="flex space-x-4 mt-4">
+          {['chat', 'dashboard', 'ai', 'crm', 'calendar'].map((tag) => (
+            <button
+              key={tag}
+              onClick={() => handleTagClick(tag)} // Handle tag click
+              className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm"
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      </main>
     </div>
   );
 };
+
+export { SearchFilters };
