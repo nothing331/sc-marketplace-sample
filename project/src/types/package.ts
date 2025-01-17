@@ -12,4 +12,5 @@ export interface Package {
   version: string;
   screenshots: string[];
   demoUrl?: string;
+  readme: string;
 }

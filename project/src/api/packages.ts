@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Package } from '../types/package';
 
 // Simulated API delay
@@ -19,11 +20,19 @@ const generateDummyPackages = (page: number): Package[] => {
     thumbnail: `https://picsum.photos/seed/${startIndex + i}/800/600`,
     createdAt: new Date(Date.now() - Math.random() * 10000000000).toISOString(),
     version: "1.2.3",
-    screenshots: [`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`]
+    screenshots: [`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`],
+    readme: "hey",
   }));
 };
 
 export const fetchPackages = async (page: number): Promise<Package[]> => {
-  await delay(1000); // Simulate network delay
-  return generateDummyPackages(page);
+  // await delay(1000); // Simulate network delay
+  // return generateDummyPackages(page);
+  try {
+    const response = await axios.get('https://4275r.wiremockapi.cloud/packages/dummy');
+    return response.data; 
+  } catch (error) {
+    console.error('Error fetching packages:', error);
+    throw error; 
+  }
 };

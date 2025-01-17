@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Star, Eye, MessageSquare, Clock, Package as PackageIcon } from 'lucide-react';
 import { useSelector } from 'react-redux';
@@ -95,7 +95,7 @@ export const PackageDetailsPage: React.FC = () => {
     {
       name: 'readme',
       label: 'Readme',
-      content: <ReadmeTab screenshots={packageDetails.screenshots}/>
+      content: <ReadmeTab screenshots={packageDetails.screenshots} readme={packageDetails.readme}/>
     },
     {
       name: 'reviews',
@@ -110,6 +110,8 @@ export const PackageDetailsPage: React.FC = () => {
   ];
 
   if (!packageDetails) return null;
+
+  
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
