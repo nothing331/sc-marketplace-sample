@@ -7,6 +7,9 @@ import { MarketplacePage } from './pages/MarketplacePage';
 import { ProfilePage } from './pages/ProfilePage';
 import { PackageDetailsPage } from './pages/PackageDetailsPage';
 import { AuthModal } from './components/AuthModal';
+import Layout from './components/Layout';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 
 export default function App() {
   const theme = useSelector((state: RootState) => state.theme);
@@ -19,10 +22,14 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/marketplace" element={<MarketplacePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/package/:id" element={<PackageDetailsPage />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/marketplace" element={<MarketplacePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/package/:id" element={<PackageDetailsPage />} />
+        </Route>
       </Routes>
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </BrowserRouter>

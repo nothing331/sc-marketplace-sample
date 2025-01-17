@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { useDispatch } from 'react-redux';
-import { login, signup } from '../store/slices/authSlice';
+import { login } from '../store/slices/authSlice';
 import { AppDispatch } from '../store/store';
 
 interface AuthModalProps {
@@ -22,11 +22,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     setError(null);
     
     try {
-      if (isLogin) {
-        await dispatch(login({ email, password })).unwrap();
-      } else {
-        await dispatch(signup({ email, password })).unwrap();
-      }
+      // if (isLogin) {
+      //   await dispatch(login({ email, password })).unwrap();
+      // } else {
+      //   await dispatch(signup({ email, password })).unwrap();
+      // }
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');

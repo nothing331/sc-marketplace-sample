@@ -18,6 +18,8 @@ const generateDummyPackages = (page: number): Package[] => {
     // Using a more reliable image service with specific dimensions
     thumbnail: `https://picsum.photos/seed/${startIndex + i}/800/600`,
     createdAt: new Date(Date.now() - Math.random() * 10000000000).toISOString(),
+    version: "1.2.3",
+    screenshots: [`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`,`https://picsum.photos/seed/${startIndex + i}/800/600`]
   }));
 };
 
