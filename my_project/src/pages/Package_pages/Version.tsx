@@ -61,7 +61,7 @@ const Version: React.FC = () => {
               {pkg.description}
             </p>
             <div>
-            <nav className="flex -mb-px">
+            <nav className="flex -mb-px overflow-auto">
                 {(['Readme', 'Changelog', 'Example', 'Installing', 'Version', 'Scores'] as const).map((status) => (
                 <NavLink
                     key={status}

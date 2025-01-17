@@ -62,7 +62,7 @@ const Installing: React.FC = () => {
             </p>
 
             <div>
-            <nav className="flex -mb-px">
+            <nav className="flex -mb-px overflow-auto">
                 {(['Readme', 'Changelog', 'Example', 'Installing', 'Version', 'Scores'] as const).map((status) => (
                 <NavLink
                     key={status}

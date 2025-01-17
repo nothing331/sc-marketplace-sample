@@ -28,4 +28,9 @@ export interface Package {
   version: string;
   screenshots: string[];
   demoUrl?: string;
+  changelog: {
+    version: string;
+    date: string;
+    bio: string;
+  }[];
 }

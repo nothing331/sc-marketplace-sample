@@ -25,7 +25,16 @@ const generateMockPackages = (page: number): Package[] => {
       'https://images.unsplash.com/photo-1461749280684-dccba630e2f6',
       'https://images.unsplash.com/photo-1498050108023-c5249f4df085'
     ],
-    demoUrl: 'https://example.com'
+    demoUrl: 'https://example.com',
+    changelog:[{
+      version: '0.9.2',
+      date: '14/03/2022',
+      bio: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda temporibus dolorem nesciunt molestiae provident saepe quia delectus ad enim ipsum, ut voluptates dolores quod maxime tenetur nulla corporis repellendus dolor!'
+    },{
+      version: '0.9.1',
+      date: '10/03/2022',
+      bio: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda temporibus dolorem nesciunt molestiae provident saepe quia delectus ad enim ipsum, ut voluptates dolores quod maxime tenetur nulla corporis repellendus dolor!'
+    }]
   }));
 };
 
@@ -65,16 +74,6 @@ const MarketplacePage: React.FC = () => {
     }
   }, [inView]);
 
-  // const handleSearch = (value: string) => {
-  //   dispatch(updateFilters({ search: value }));
-  //   setPage(1);
-  //   // setHasMore(true);
-  //   dispatch(setPackages([]));
-  //   // loadPackages(1);
-  // };
-
-  // const debouncedSearch = debounce(handleSearch, 500);
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex flex-col md:flex-row gap-6 mb-8">
@@ -87,7 +86,6 @@ const MarketplacePage: React.FC = () => {
               className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
               value={filters.search}
               onChange={(e) => {dispatch(updateFilters({ search: e.target.value }))}}
-              // onChange={(e) => debouncedSearch(e.target.value)}
             />
           </div>
         </div>

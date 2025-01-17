@@ -23,25 +23,6 @@ const ChangeLog: React.FC = () => {
         );
       }
 
-      const handlePkgDetails = (status: PackageInfo) => {
-        setActiveTab(status);
-        // Check the status parameter directly instead of activeTab
-        if(status === 'Changelog') {
-            navigate(`/package/${pkg.id}/changelog`);
-        }
-        if(status === 'Example') {
-            navigate(`/package/${pkg.id}/example`);
-        }
-        if(status === 'Installing') {
-            navigate(`/package/${pkg.id}/installing`);
-        }
-        if(status === 'Version') {
-            navigate(`/package/${pkg.id}/version`);
-        }
-        if(status === 'Scores') {
-            navigate(`/package/${pkg.id}/scores`);
-        }
-    }
 
     return(
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -80,28 +61,8 @@ const ChangeLog: React.FC = () => {
               {pkg.description}
             </p>
 
-            {/* toggle detail tabs */}
-
-            {/* <div>
-                <nav className="flex -mb-px">
-                {(['Readme' , 'Changelog' , 'Example' , 'Installing' , 'Version' , 'Scores'] as const).map((status) => (
-                  <button
-                    key={status}
-                    onClick={() => handlePkgDetails(status)}
-                    className={`${
-                      activeTab === status
-                        ? 'border-primary-500 text-primary-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                    } whitespace-nowrap py-4 px-6 border-b-2 font-medium text-sm capitalize`}
-                  >
-                    {status}
-                  </button>
-                ))}
-              </nav>
-            </div> */}
-
             <div>
-            <nav className="flex -mb-px">
+            <nav className="flex -mb-px overflow-auto">
                 {(['Readme', 'Changelog', 'Example', 'Installing', 'Version', 'Scores'] as const).map((status) => (
                 <NavLink
                     key={status}
@@ -118,18 +79,10 @@ const ChangeLog: React.FC = () => {
                 ))}
             </nav>
             </div>
-            
-            {/* <div className="p-6">
-                {activeTab === 'Readme' && (
-                    <h1>This is the Readme page</h1>
-                )}
-            </div> */}
-
-
-            <div className="space-y-8">
+            <div className="space-y-4">
               {/* Screenshots */}
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mx-2">
                   Change Log
                 </h2>
                 <div className="grid grid-cols-2 gap-4">
@@ -137,7 +90,20 @@ const ChangeLog: React.FC = () => {
                 </div>
               </div>
 
-              {/* Demo */}
+              <div>
+              {
+                pkg.changelog.map((entry, index)=>(
+                  <li key={index} className="list-none flex mb-2 border border-gray-950 p-3 rounded-md bg-gray-50 dark:bg-gray-900 shadow-sm">
+                    <div className="flex-row m-2 items-center">
+                      <div className="text-sm font-medium text-gray-700 dark:text-white mb-2">{entry.version}</div>
+                      <div className="text-sm text-gray-500 dark:text-white">{entry.date}</div>
+                    </div>
+                    <p className="text-sm mt-1 text-gray-600 dark:text-gray-400">{entry.bio}</p>
+                  </li>
+                ))
+              }
+              </div>
+
               {pkg.demoUrl && (
                 <div>
                   <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">

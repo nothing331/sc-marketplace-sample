@@ -22,27 +22,6 @@ const PackageDetail: React.FC = () => {
           </div>
         );
       }
-
-      const handlePkgDetails = (status: PackageInfo) => {
-        setActiveTab(status);
-        // Check the status parameter directly instead of activeTab
-        if(status === 'Changelog') {
-            navigate(`/package/${pkg.id}/changelog`);
-        }
-        if(status === 'Example') {
-            navigate(`/package/${pkg.id}/example`);
-        }
-        if(status === 'Installing') {
-            navigate(`/package/${pkg.id}/installing`);
-        }
-        if(status === 'Version') {
-            navigate(`/package/${pkg.id}/version`);
-        }
-        if(status === 'Scores') {
-            navigate(`/package/${pkg.id}/scores`);
-        }
-    }
-
     return(
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -80,7 +59,7 @@ const PackageDetail: React.FC = () => {
               {pkg.description}
             </p>
 
-            <nav className="flex -mb-px">
+            <nav className="flex -mb-px overflow-auto">
                 {(['Readme', 'Changelog', 'Example', 'Installing', 'Version', 'Scores'] as const).map((status) => (
                 <NavLink
                     key={status}
