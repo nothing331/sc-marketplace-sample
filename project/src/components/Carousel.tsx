@@ -38,7 +38,7 @@ const PackageCarousel: React.FC<PackageCarouselProps> = ({ packages, title, subt
         </h2> {/* Title aligned to the left */}
         <p className="text-lg text-gray-600 dark:text-gray-400">
           {subtitle}
-        </p> {/* Subtitle aligned to the left */}
+        </p> Subtitle aligned to the left
       </div>
       <Carousel
         responsive={responsive}

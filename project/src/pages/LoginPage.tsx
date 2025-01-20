@@ -2,16 +2,21 @@ import { Eye, EyeOff } from 'lucide-react';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../store/slices/authSlice';
+import { AppDispatch } from '../store/store';
+
+const useAppDispatch = () => useDispatch<AppDispatch>();
 
 const LoginPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    await dispatch(login({ email, password})).unwrap();
     // Mock login logic
     navigate('/marketplace');
   };

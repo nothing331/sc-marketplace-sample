@@ -29,6 +29,8 @@ export const PackageDetailsPage: React.FC = () => {
   const { items  } = useSelector((state: RootState) => state.packages);
   const relatedPackage=items.slice(0,3);
 
+  
+
   const mockVersions: Changelog[] = [
     {
       version: '1.2.0',

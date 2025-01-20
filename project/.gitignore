@@ -13,6 +13,7 @@ dist-ssr
 *.local
 
 # Editor directories and files
+./demo_readme.md
 .vscode/*
 !.vscode/extensions.json
 .idea
