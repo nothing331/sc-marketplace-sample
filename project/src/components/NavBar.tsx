@@ -59,8 +59,18 @@ export const NavbarWithMegaMenu: React.FC = () => {
           <div className="hidden items-center gap-4 lg:flex">
             <ThemeToggle />
             {
-                user?(<>
-                <div onClick={() => handleRedirect("profile")}>Profile</div>
+                user?(
+                <>
+                {user?.avatarUrl && (
+                      <img
+                        src={user.avatarUrl}
+                        alt={user.displayName}
+                        className="h-8 w-8 rounded-full"
+                        onClick={() => handleRedirect("profile")}
+                      />
+                    )}
+                {/* <div className='rounded-lg px-4 py-2 text-gray-900 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800' 
+                onClick={() => handleRedirect("profile")}>Profile</div> */}
                 </>):
                 (
                     <div className="mt-4 grid grid-cols-2 gap-4">

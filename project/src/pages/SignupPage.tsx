@@ -10,6 +10,7 @@ const useAppDispatch = () => useDispatch<AppDispatch>();
 const SignupPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,7 +19,7 @@ const SignupPage: React.FC = () => {
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(signup({ email, password,name })).unwrap();
+      await dispatch(signup({ email, password,name, username })).unwrap();
     } catch (err) {
       console.error('Failed to login:', err);
     }
@@ -38,6 +39,21 @@ const SignupPage: React.FC = () => {
         </div>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
+          <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Username
+              </label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                required
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                placeholder="John#Doe"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Full Name

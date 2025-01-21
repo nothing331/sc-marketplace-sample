@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { User } from '../../types/user';
+import { Fullscreen } from 'lucide-react';
+import axios from 'axios';
+import { api_link, login_route } from '../../constants/api_constants';
 
 interface AuthState {
   user: User | null;
@@ -13,16 +16,33 @@ const initialState: AuthState = {
   error: null,
 };
 
+let jwtToken;
+
 export const login = createAsyncThunk(
   'auth/login',
-  async ({ email, password }: { email: string; password: string }) => {
+  async ({ username, password }: { username: string; password: string }) => {
     // Replace with actual API call
+    const payload ={
+      username : username,
+      password :password
+    }
+
+    await axios.post(login_route,payload)
+    .then(response => {
+      jwtToken = response.data;
+      localStorage.setItem('responseData', JSON.stringify(jwtToken));
+      console.log('Response:', response.data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
     await new Promise((resolve) => setTimeout(resolve, 1000));
     return {
       id: '1',
-      email,
-      displayName: 'User Name',
-      avatarUrl: 'https://example.com/avatar.png',
+      email:'',
+      displayName: username,
+      fullName:'',
+      avatarUrl: 'https://avatar.iran.liara.run/public',
       createdAt: new Date().toISOString(),
       publishedPackages: [],
       pendingPackages: [],
@@ -34,13 +54,31 @@ export const login = createAsyncThunk(
 
 export const signup = createAsyncThunk(
   'auth/signup',
-  async ({ email, password,name }: { email: string; password: string,name:string }) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+  async ({ email, password,name ,username }: { email: string; password: string,name:string, username:string }) => {
+    const payload ={
+      username : username,
+      email:email,
+      fullName : name,
+      password :password
+    }
+
+    await axios.post(api_link,payload)
+    .then(response => {
+      jwtToken = response.data;
+      localStorage.setItem('responseData', JSON.stringify(jwtToken));
+      console.log('Response:', response.data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
     return {
       id: '2',
       email,
-      displayName: name,
-      avatarUrl: 'https://example.com/avatar.png',
+      displayName: username,
+      fullName: name,
+      avatarUrl: 'https://avatar.iran.liara.run/public',
       createdAt: new Date().toISOString(),
       publishedPackages: [],
       pendingPackages: [],

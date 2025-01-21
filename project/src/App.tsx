@@ -10,6 +10,8 @@ import { AuthModal } from './components/AuthModal';
 import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import { DocsPage } from './pages/DocsPage';
+import AboutUs from './pages/AboutUs';
 
 export default function App() {
   const theme = useSelector((state: RootState) => state.theme);
@@ -29,6 +31,8 @@ export default function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/package/:id" element={<PackageDetailsPage />} />
+          <Route path="/docs" element={<DocsPage/>}/>
+          <Route path="/about" element={<AboutUs/>}/>
         </Route>
       </Routes>
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
