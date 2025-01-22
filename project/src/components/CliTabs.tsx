@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 // import fs from 'node:fs';
 // import test from '../util/test';
-import data from '../util/DocsData.json';
-import Markdown from 'react-markdown';
-import MarkdownComp from './MArkdownComp';
+import data from '../utils/DocsData.json';
+// import Markdown from 'react-markdown';
+import MarkdownComp from './MarkdownComp';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 
 export const CliTabs: React.FC = ()=> {
     const [sdkActiveTab, setSdkActiveTab] = useState<string>('initial setup')
@@ -18,7 +19,7 @@ export const CliTabs: React.FC = ()=> {
             name:"initial setup",
             label:"Initial Setup",
             // content : "This is Initial Step to run the application"
-            content: data.initial_setup // here we can read the json to get the md file whic is need to be shown
+            content: data.SDK.initial_setup // here we can read the json to get the md file whic is need to be shown
         },
         {
             name:"publish",
@@ -34,6 +35,7 @@ export const CliTabs: React.FC = ()=> {
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 Salescode Documentation
               </h1>
+              {/* <MarkdownPreview source ={data.SDK.initial_setup} /> */}
               <p className="text-gray-600 dark:text-gray-300 text-lg">
                 Prerequisites
               </p>
@@ -78,7 +80,8 @@ export const CliTabs: React.FC = ()=> {
         {/* content */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         {/* {tabs.find(tab => tab.name === activeTab)?.content} */}
-            <MarkdownComp markdown={innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content || ''}/>
+            {/* <MarkdownComp markdown={innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content || ''}/> */}
+            {/* <MarkdownPreview source ={innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content || ''} /> */}
         </div>
         </div>
     )

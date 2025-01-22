@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 // import fs from 'node:fs';
 // import test from '../util/test';
-import data from '../util/DocsData.json';
+import data from '../utils/DocsData.json';
+import Markdown from 'react-markdown';
+// import MarkdownPreview from '@uiw/react-markdown-preview';
 
 
 export const SdkTabs: React.FC = ()=> {
 
-    const [sdkActiveTab, setSdkActiveTab] = useState<string>('initial setup')
+    const [sdkActiveTab, setSdkActiveTab] = useState<string>('readme')
 
     // const jsonString = fs.readFileSync('../util/DocsData.json', 'utf-8');
     // const data = JSON.parse(jsonString);
@@ -15,20 +17,15 @@ export const SdkTabs: React.FC = ()=> {
 
     const innerSdkTabs = [
         {
-            name:"initial setup",
-            label:"Initial Setup",
+            name:"readme",
+            label:"Readme",
+            content:data.SDK.initial_setup,
+        },
+        {
+            name:"insallation guide",
+            label:"insallation guide",
             // content : "This is Initial Step to run the application"
-            content: data.initial_setup // here we can read the json to get the md file whic is need to be shown
-        },
-        {
-            name:"sdk",
-            label:"SDK",
-            content:"SDK functionality All file system operations have synchronous, callback, and promise-based forms, and are accessible using both CommonJS syntax and ES6 Modules (ESM)" // here we can read the json to get the md file whic is need to be shown
-        },
-        {
-            name:"publish",
-            label:"Publish",
-            content:"Steps on how to publish the website" // here we can read the json to get the md file whic is need to be shown
+            content: data.SDK.insallation_guide // here we can read the json to get the md file whic is need to be shown
         }
     ]
     return(
@@ -39,7 +36,9 @@ export const SdkTabs: React.FC = ()=> {
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 Salescode Documentation
               </h1>
-              <p className="text-gray-600 dark:text-gray-300 text-lg">
+              {/* <Markdown>{data.SDK.initial_setup}</Markdown> */}
+              {/* <MarkdownPreview source ={data.SDK.initial_setup} /> */}
+              {/* <p className="text-gray-600 dark:text-gray-300 text-lg">
                 Prerequisites
               </p>
               <ul>
@@ -62,7 +61,7 @@ export const SdkTabs: React.FC = ()=> {
                         To download Node JS and NPM <a href="https://nodejs.org/en/download/package-manager" target="_blank" className='text-blue-700 dark:text-blue-400' >Click Here</a>
                     </p>
                 </li>
-            </ul>
+            </ul> */}
             {innerSdkTabs.map((tab)=>(
                 <button
                 key={tab.name}
@@ -83,7 +82,9 @@ export const SdkTabs: React.FC = ()=> {
         {/* content */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         {/* {tabs.find(tab => tab.name === activeTab)?.content} */}
-            {innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content}
+            {/* {innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content} */}
+            {/* <MarkdownPreview source ={innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content} /> */}
+            <Markdown>{innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content}</Markdown>
         </div>
         </div>
     )
