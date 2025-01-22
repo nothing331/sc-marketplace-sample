@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { User } from '../../types/user';
-import { Fullscreen } from 'lucide-react';
+import { Fullscreen, Network } from 'lucide-react';
 import axios from 'axios';
-import { api_link, login_route } from '../../constants/api_constants';
+import { LOGIN, SIGNUP } from '../../constants/api_constants';
+import network_service, { NetworkException } from '../../utils/network_service';
+import { url } from 'inspector';
 
 interface AuthState {
   user: User | null;
@@ -27,7 +29,7 @@ export const login = createAsyncThunk(
       password :password
     }
 
-    await axios.post(login_route,payload)
+    await axios.post(LOGIN,payload)
     .then(response => {
       jwtToken = response.data;
       localStorage.setItem('responseData', JSON.stringify(jwtToken));
@@ -62,28 +64,24 @@ export const signup = createAsyncThunk(
       password :password
     }
 
-    await axios.post(api_link,payload)
-    .then(response => {
-      jwtToken = response.data;
-      localStorage.setItem('responseData', JSON.stringify(jwtToken));
-      console.log('Response:', response.data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+    var response;
+    try {
+      response = await network_service.post<any>({url:SIGNUP,body:payload});
+    }catch (error) {
+      const exc= error as NetworkException;
+      console.log(exc.message);
+      console.log(exc.status);
+    }
 
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    localStorage.setItem('token', JSON.stringify(response!.data['token']));
+    
     return {
       id: '2',
       email,
       displayName: username,
       fullName: name,
       avatarUrl: 'https://avatar.iran.liara.run/public',
-      createdAt: new Date().toISOString(),
-      publishedPackages: [],
-      pendingPackages: [],
-      rejectedPackages: [],
-      starredPackages: [],
     } as User;
   }
 );

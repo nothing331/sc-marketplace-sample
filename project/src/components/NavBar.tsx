@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu as MenuIcon, X } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 
@@ -35,6 +35,9 @@ export const NavbarWithMegaMenu: React.FC = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [user]);
+
+  const location = useLocation();
+  if(location.pathname=="/") return null;
 
   return (
     <header className="bg-white shadow-md transition-colors duration-200 dark:bg-gray-900 dark:shadow-gray-800/30">
