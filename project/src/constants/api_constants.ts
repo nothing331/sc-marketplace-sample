@@ -1,9 +1,4 @@
-export const api_link ="https://salescode-marketplace.salescode.ai/user/register";
+export const BASE_URL ="http://localhost:8000";
 
-//Register/Signup User route 
-
-const signup_route = '/user/register';
-
-// Login User
-
-export const login_route = 'https://salescode-marketplace.salescode.ai/user/register/user/login';
+export const SIGNUP = '/user/register';
+export const LOGIN = 'user/login';

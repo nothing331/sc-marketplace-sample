@@ -7,10 +7,6 @@ export interface User {
   fullName:string;
   avatarUrl: string ;
   createdAt: string;
-  publishedPackages: Package[];
-  pendingPackages: Package[];
-  rejectedPackages: Package[];
-  starredPackages: Package[];
 }
 
 export interface UserProfile extends User {
