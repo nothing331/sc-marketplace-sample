@@ -9,6 +9,7 @@ import { Review } from '../types/reviews';
 import { ChangelogTab } from '../components/Chnagelog';
 import { Changelog } from '../types/changelog';
 import { PackageCard } from '../components/PackageCard';
+import MarkdownComp from '../components/MarkdownComp';
 
 
 
@@ -20,14 +21,21 @@ interface Version {
 
 export const PackageDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [activeTab, setActiveTab] = useState<string>('readme');
+  ;
   
   const packageDetails = useSelector((state: RootState) => 
-    state.packages.items.find(p => p.id === id)
+    state.packages.items.find(p => p._id === id)
   );
+
+  const [activeTab, setActiveTab] = useState<string>('README.md')
 
   const { items  } = useSelector((state: RootState) => state.packages);
   const relatedPackage=items.slice(0,3);
+
+  // useEffect(() => {
+  //   console.log(packageDetails?.availableMarkdowns)
+  // }, [])
+  
 
   
 
@@ -67,6 +75,9 @@ export const PackageDetailsPage: React.FC = () => {
     },
   ];
 
+  const data = packageDetails!.availableMarkdowns
+  const packageData = Object.entries(packageDetails!.availableMarkdowns)
+
   const mockReview : Review[]=[
     {
       id: '1',
@@ -97,7 +108,7 @@ export const PackageDetailsPage: React.FC = () => {
     {
       name: 'readme',
       label: 'Readme',
-      content: <ReadmeTab screenshots={packageDetails.screenshots} readme={packageDetails.readme}/>
+      // content: <ReadmeTab screenshots={packageDetails.screenshots} readme={packageDetails.readme}/>
     },
     {
       name: 'reviews',
@@ -122,7 +133,7 @@ export const PackageDetailsPage: React.FC = () => {
           <div className="flex items-start justify-between mb-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                {packageDetails.name}
+                {packageDetails.packageName}
               </h1>
               <p className="text-gray-600 dark:text-gray-300 text-lg">
                 {packageDetails.description}
@@ -131,11 +142,11 @@ export const PackageDetailsPage: React.FC = () => {
             <div className="flex items-center space-x-4">
               <div className="flex items-center">
                 <Star className="w-5 h-5 text-yellow-400 mr-1" />
-                <span className="text-lg font-semibold">{packageDetails.rating.toFixed(1)}</span>
+                {/* <span className="text-lg font-semibold">{packageDetails.rating.toFixed(1)}</span> */}
               </div>
               <div className="flex items-center">
                 <Eye className="w-5 h-5 text-gray-500 mr-1" />
-                <span className="text-lg">{packageDetails.downloads.toLocaleString()}</span>
+                {/* <span className="text-lg">{packageDetails.downloads.toLocaleString()}</span> */}
               </div>
             </div>
           </div>
@@ -143,7 +154,7 @@ export const PackageDetailsPage: React.FC = () => {
           {/* Tabs */}
           <div className="border-b border-gray-200 dark:border-gray-700">
             <nav className="-mb-px flex space-x-8">
-              {tabs.map((tab) => (
+              {/* {tabs.map((tab) => (
                 <button
                   key={tab.name}
                   onClick={() => setActiveTab(tab.name)}
@@ -155,6 +166,19 @@ export const PackageDetailsPage: React.FC = () => {
                 >
                   {tab.label}
                 </button>
+              ))} */}
+              {packageData.map(([key,value])=>(
+                <button
+                key={key}
+                onClick={()=>setActiveTab(key)}
+                className={`${
+                  activeTab === key
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm capitalize`}
+              >
+                {key}
+                </button>
               ))}
             </nav>
           </div>
@@ -162,9 +186,10 @@ export const PackageDetailsPage: React.FC = () => {
         
         {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
             {/* Dynamically render the active tab content */}
-            {tabs.find(tab => tab.name === activeTab)?.content}
+            {/* {tabs.find(tab => tab.name === activeTab)?.content} */}
+            <MarkdownComp markdown={packageData.find(([key]) => key === activeTab)?.[1]}/>
           </div>
           
           {/* Sidebar */}
@@ -177,12 +202,12 @@ export const PackageDetailsPage: React.FC = () => {
               <div className="flex items-center mb-4">
                 <img
                   src={`https://ui-avatars.com/api/?name=${encodeURIComponent(packageDetails.author)}`}
-                  alt={packageDetails.author}
+                  alt={packageDetails.user.username}
                   className="w-12 h-12 rounded-full mr-4"
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900 dark:text-white">
-                    {packageDetails.author}
+                    {packageDetails.user.username}
                   </h4>
                   <p className="text-sm text-gray-500">Package Developer</p>
                 </div>
@@ -196,7 +221,7 @@ export const PackageDetailsPage: React.FC = () => {
               </h3>
               <div className="space-y-4">
                 {relatedPackage.map((pkg) => (
-                  <PackageCard key={pkg.id} package={pkg}  />
+                  <PackageCard key={pkg._id} package={pkg}  />
                 ))}
               </div>
             </div>

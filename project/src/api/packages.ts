@@ -30,7 +30,7 @@ export const fetchPackages = async (page: number): Promise<Package[]> => {
   // return generateDummyPackages(page);
   try {
     const response = await axios.get('https://4275r.wiremockapi.cloud/packages/dummy');
-    return response.data; 
+    return response.data.packages; 
   } catch (error) {
     console.error('Error fetching packages:', error);
     throw error; 

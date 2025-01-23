@@ -13,7 +13,7 @@ interface PackageCardProps {
 export const PackageCard: React.FC<PackageCardProps> = ({ package: pkg }) => {
   const dispatch = useDispatch();
   const starredPackages = useSelector((state: RootState) => state.packages.starredPackages);
-  const isStarred = starredPackages.includes(pkg.id);
+  const isStarred = starredPackages.includes(pkg._id);
   const navigate=useNavigate();
   const handlePackageClick = (event: React.MouseEvent<HTMLDivElement>, packageId: string) => {
     event.preventDefault();
@@ -22,23 +22,23 @@ export const PackageCard: React.FC<PackageCardProps> = ({ package: pkg }) => {
 
   return (
     <div
-      onClick={(event) => handlePackageClick(event, pkg.id)}
+      onClick={(event) => handlePackageClick(event, pkg._id)}
       className="bg-white hover:cursor-pointer dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg"
     >
       <img
-        src={pkg.thumbnail}
-        alt={pkg.name}
+        // src={pkg.thumbnail}
+        alt={pkg.packageName}
         className="w-full h-48 object-cover"
       />
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            {pkg.name}
+            {pkg.packageName}
           </h3>
           <button
             onClick={(e) => {
               e.stopPropagation();
-              dispatch(toggleStar(pkg.id));
+              dispatch(toggleStar(pkg._id));
             }}
             className={`p-1 rounded-full transition-colors ${
               isStarred
@@ -49,27 +49,27 @@ export const PackageCard: React.FC<PackageCardProps> = ({ package: pkg }) => {
             <Star className="w-5 h-5 fill-current" />
           </button>
         </div>
-        {/* <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
           {pkg.description}
-        </p> */}
+        </p>
         <TruncateText text={pkg.description}/>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
               <Star className="w-4 h-4 text-yellow-400" />
-              <span className="text-sm text-gray-600 dark:text-gray-300">
+              {/* <span className="text-sm text-gray-600 dark:text-gray-300">
                 {pkg.rating.toFixed(1)}
-              </span>
+              </span> */}
             </div>
             <div className="flex items-center space-x-1">
               <Eye className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-              <span className="text-sm text-gray-600 dark:text-gray-300">
+              {/* <span className="text-sm text-gray-600 dark:text-gray-300">
                 {pkg.downloads.toLocaleString()}
-              </span>
+              </span> */}
             </div>
           </div>
           <span className="text-sm text-gray-500 dark:text-gray-400">
-            by {pkg.author}
+            by {pkg.user.username}
           </span>
         </div>
       </div>
