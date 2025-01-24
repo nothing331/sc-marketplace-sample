@@ -25,11 +25,30 @@ interface CodeProps {
 
 function MarkdownComp({markdown}: Props) {
   const theme = useSelector((state: RootState) => state.theme)
+  const markdownStyles = {
+    light: {
+      color: '#333',
+      backgroundColor: '#fff',
+      padding: '1rem',
+      borderRadius: '8px'
+    },
+    dark: {
+      color: '#e0e0e0',
+      backgroundColor: '#333',
+      padding: '1rem',
+      borderRadius: '8px'
+    }
+  };
   return (
-    <ReactMarkdown
+    // <div
+    //   style={markdownStyles[theme]}
+    //   className={`markdown ${theme}-theme`}
+    //   >
+    <div className="dark:text-gray-100 text-gray-900 dark:prose-invert">
+      <ReactMarkdown
               className="markdown"
               remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeRaw]}
+              // rehypePlugins={[rehypeRaw]}
               components={{
                 code({ node, inline, className, children, ...props }: CodeProps) {
                   const match = /language-(\w+)/.exec(className || '');
@@ -51,6 +70,8 @@ function MarkdownComp({markdown}: Props) {
               {markdown}
               {/* {readmd} */}
             </ReactMarkdown>
+    </div>
+    
 
 
     // <ReactMarkdown

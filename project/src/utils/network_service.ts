@@ -33,7 +33,7 @@ class NetworkService {
       if (axios.isAxiosError(error)) {
         throw {
           status: error.response?.status || 500,
-          message: error.response?.statusText || 'Network Error',
+          message: error.response?.data['error'] || 'Network Error',
         } as NetworkException;
       }
       throw { status: 500, message: 'Unknown Error' } as NetworkException;

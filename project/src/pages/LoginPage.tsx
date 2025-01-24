@@ -1,9 +1,9 @@
 import { Eye, EyeOff } from 'lucide-react';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../store/slices/authSlice';
-import { AppDispatch } from '../store/store';
+import { AppDispatch, RootState } from '../store/store';
 
 const useAppDispatch = () => useDispatch<AppDispatch>();
 
@@ -14,13 +14,44 @@ const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  // const [errorFromAPI, setErrorFromAPI] = useState<any>(null);
+  const [errorFromAPI, setErrorFromAPI] = useState<string | null>(null);
+
+  const {error, status} =useSelector((state:RootState)=>state.auth);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await dispatch(login({ username, password})).unwrap();
+    setErrorFromAPI(null);
     // Mock login logic
-    navigate('/marketplace');
+      // try{
+      //   await dispatch(login({ username, password})).unwrap();
+      // }catch(error){
+      //   console.log('Error:', error);
+      //   findError.current = error
+      //   // setErrorFromAPI(error)
+      // }
+      // // setErrorFromAPI(error)
+      // if(findError){
+      //   // setErrorFromAPI(error)
+      //   console.log(findError);
+        
+      // }else{
+      //   navigate('/marketplace');
+      // }
+      try {
+        await dispatch(login({ username, password })).unwrap(); // Call login thunk
+        navigate('/marketplace'); // Navigate on success
+      } catch (error: any) {
+        // setErrorFromAPI(error); // Set error from API
+        console.log('Login Error:', error);
+      }
+      if(error){
+        console.log(error)
+        setErrorFromAPI(error)
+      }
+    
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -91,13 +122,18 @@ const LoginPage: React.FC = () => {
             type="submit"
             className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            Sign In
+            {status === 'loading' ? 'Logging in...' : 'Sign In'}
           </button>
+          {errorFromAPI && (
+            <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+              Error: {errorFromAPI}
+            </p>
+          )}
         </form>
 
         <div className="text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Don’t have an account?{' '}
+            Don't have an account?{' '}
             <Link
               to="/signup"
               className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400"

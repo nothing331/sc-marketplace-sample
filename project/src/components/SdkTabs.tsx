@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 // import test from '../util/test';
 import data from '../utils/DocsData.json';
 import Markdown from 'react-markdown';
+import MarkdownComp from './MarkdownComp';
 // import MarkdownPreview from '@uiw/react-markdown-preview';
 
 
@@ -84,7 +85,8 @@ export const SdkTabs: React.FC = ()=> {
         {/* {tabs.find(tab => tab.name === activeTab)?.content} */}
             {/* {innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content} */}
             {/* <MarkdownPreview source ={innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content} /> */}
-            <Markdown>{innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content}</Markdown>
+            {/* <Markdown>{innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content}</Markdown> */}
+            <MarkdownComp markdown={innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content}/>
         </div>
         </div>
     )

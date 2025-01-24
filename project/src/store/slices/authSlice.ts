@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { User } from '../../types/user';
-import { Fullscreen, Network } from 'lucide-react';
 import axios from 'axios';
 import { LOGIN, SIGNUP } from '../../constants/api_constants';
 import network_service, { NetworkException } from '../../utils/network_service';
 import { url } from 'inspector';
+import { jwtDecode } from 'jwt-decode';
 
 interface AuthState {
   user: User | null;
@@ -18,39 +18,79 @@ const initialState: AuthState = {
   error: null,
 };
 
+
+
+interface DecodedToken {
+  id: string;
+  email: string;
+  username: string;
+}
+
 let jwtToken;
 
 export const login = createAsyncThunk(
   'auth/login',
-  async ({ username, password }: { username: string; password: string }) => {
+  async ({ username, password }: { username: string; password: string }, { rejectWithValue }) => {
     // Replace with actual API call
     const payload ={
       username : username,
       password :password
     }
 
-    await axios.post(LOGIN,payload)
-    .then(response => {
-      jwtToken = response.data;
-      localStorage.setItem('responseData', JSON.stringify(jwtToken));
-      console.log('Response:', response.data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    var response;
+    try {
+      response = await network_service.post<any>({url:LOGIN,body:payload});
+    }catch (error) {
+      const exc= error as NetworkException;
+      console.log(exc)
+      console.log(exc.message);
+      console.log(exc.status);
+    }
+
+    const token = response?.data['token'];
+      if (!token) {
+        throw new Error('Token not found in response'); // Handle missing token
+      }
+
+      localStorage.setItem('token', JSON.stringify(token));
+
+    // Decode JWT
+    const decodedToken = jwtDecode<DecodedToken>(token);
+    console.log(decodedToken);
+
+    // Return the user object
     return {
-      id: '1',
-      email:'',
-      displayName: username,
-      fullName:'',
+      id: decodedToken.id,
+      email: decodedToken.email,
+      displayName: decodedToken.username,
+      fullName: decodedToken.username,
       avatarUrl: 'https://avatar.iran.liara.run/public',
-      createdAt: new Date().toISOString(),
-      publishedPackages: [],
-      pendingPackages: [],
-      rejectedPackages: [],
-      starredPackages: [],
     } as User;
+
+    // await axios.post(LOGIN,payload)
+    // .then(response => {
+    //   jwtToken = response.data;
+    //   localStorage.setItem('responseData', JSON.stringify(jwtToken));
+    //   console.log('Response:', response.data);
+    // })
+    // .catch(error => {
+    //   console.error('Error:', error);
+
+    //   return rejectWithValue(error.response?.data?.message || 'Failed to login');
+    // });
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    // return {
+    //   id: '1',
+    //   email:'',
+    //   displayName: username,
+    //   fullName:'',
+    //   avatarUrl: 'https://avatar.iran.liara.run/public',
+    //   createdAt: new Date().toISOString(),
+    //   publishedPackages: [],
+    //   pendingPackages: [],
+    //   rejectedPackages: [],
+    //   starredPackages: [],
+    // } as User;
   }
 );
 
@@ -69,6 +109,7 @@ export const signup = createAsyncThunk(
       response = await network_service.post<any>({url:SIGNUP,body:payload});
     }catch (error) {
       const exc= error as NetworkException;
+      console.log(exc)
       console.log(exc.message);
       console.log(exc.status);
     }
@@ -109,6 +150,7 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message || 'Failed to login';
+        // state.error = action.payload || 'Failed to login';
       })
       .addCase(signup.pending, (state) => {
         state.status = 'loading';

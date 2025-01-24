@@ -1,8 +1,8 @@
 import { Eye, EyeOff } from 'lucide-react';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppDispatch } from '../store/store';
+import { AppDispatch, RootState } from '../store/store';
 import {  signup } from '../store/slices/authSlice';
 
 const useAppDispatch = () => useDispatch<AppDispatch>();
@@ -15,15 +15,31 @@ const SignupPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [errorFromAPI, setErrorFromAPI] = useState('');
+
+  const {error, status} =useSelector((state:RootState)=>state.auth);
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await dispatch(signup({ email, password,name, username })).unwrap();
-    } catch (err) {
-      console.error('Failed to login:', err);
-    }
-    navigate('/marketplace');
+    
+      try {
+        await dispatch(signup({ email, password,name, username })).unwrap();
+      } catch (err) {
+        console.error('Failed to login:', err);
+      }
+      
+      if(error){
+        setErrorFromAPI(error);
+        console.log(error);
+      }else{
+        navigate('/marketplace');
+      }
+    // try {
+    //   await dispatch(signup({ email, password,name, username })).unwrap();
+    // } catch (err) {
+    //   console.error('Failed to login:', err);
+    // }
+    // navigate('/marketplace');
   };
 
   return (
@@ -113,8 +129,10 @@ const SignupPage: React.FC = () => {
             type="submit"
             className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            Sign Up
+            {status === 'loading' ? 'Logging in...' : 'Sign up'}
           </button>
+          {error && <p style={{ color: 'red' }}>Error: {errorFromAPI}</p>}
+          {/* {error && <p style={{ color: 'red', textAlign:'center'}}>Invalid Email</p>} */}
         </form>
         <div className="text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">

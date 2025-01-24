@@ -18,6 +18,7 @@ const navItems: NavItem[] = [
 
 export const NavbarWithMegaMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [onPage, setPage] = useState(false);
   const { user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
 
@@ -43,7 +44,7 @@ export const NavbarWithMegaMenu: React.FC = () => {
     <header className="bg-white shadow-md transition-colors duration-200 dark:bg-gray-900 dark:shadow-gray-800/30">
       <div className="mx-auto max-w-screen-xl px-4 py-2">
         <div className="flex items-center justify-between">
-          <a href="/marketplace" className="text-xl font-bold text-gray-900 dark:text-white">
+          <a href="/" className="text-xl font-bold text-gray-900 dark:text-white">
             Sales<span className="text-blue-500 dark:text-blue-400">code</span>
           </a>
 
@@ -75,7 +76,7 @@ export const NavbarWithMegaMenu: React.FC = () => {
                 {/* <div className='rounded-lg px-4 py-2 text-gray-900 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800' 
                 onClick={() => handleRedirect("profile")}>Profile</div> */}
                 </>):
-                (
+                (!onPage &&
                     <div className="mt-4 grid grid-cols-2 gap-4">
                     <button onClick={() => navigate("/login")} className="rounded-lg border border-gray-300 px-4 py-2 text-gray-900 transition-colors duration-200 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-100 dark:hover:bg-gray-800">
                       Log In

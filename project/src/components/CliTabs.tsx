@@ -32,7 +32,29 @@ export const CliTabs: React.FC = ()=> {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
           <div className="flex items-start justify-between mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            {innerSdkTabs.map((tab)=>(
+                <button
+                key={tab.name}
+                onClick={()=>setSdkActiveTab(tab.name)}
+                className={`${
+                    sdkActiveTab===tab.name
+                    ? 'border-blue-500 text-blue-600 w-28'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 w-28'}
+                    whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm capitalize`}
+                    >
+                        {tab.label}
+                    </button>
+            ))}
+            </div>
+          </div>
+        </div>
+
+        {/* content */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        {/* {tabs.find(tab => tab.name === activeTab)?.content} */}
+            {/* <MarkdownComp markdown={innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content || ''}/> */}
+            {/* <MarkdownPreview source ={innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content || ''} /> */}
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 Salescode Documentation
               </h1>
               {/* <MarkdownPreview source ={data.SDK.initial_setup} /> */}
@@ -60,28 +82,6 @@ export const CliTabs: React.FC = ()=> {
                     </p>
                 </li>
             </ul>
-            {innerSdkTabs.map((tab)=>(
-                <button
-                key={tab.name}
-                onClick={()=>setSdkActiveTab(tab.name)}
-                className={`${
-                    sdkActiveTab===tab.name
-                    ? 'border-blue-500 text-blue-600 w-28'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 w-28'}
-                    whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm capitalize`}
-                    >
-                        {tab.label}
-                    </button>
-            ))}
-            </div>
-          </div>
-        </div>
-
-        {/* content */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        {/* {tabs.find(tab => tab.name === activeTab)?.content} */}
-            {/* <MarkdownComp markdown={innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content || ''}/> */}
-            {/* <MarkdownPreview source ={innerSdkTabs.find(tab=> tab.name === sdkActiveTab)?.content || ''} /> */}
         </div>
         </div>
     )
