@@ -167,19 +167,24 @@ export const PackageDetailsPage: React.FC = () => {
                   {tab.label}
                 </button>
               ))} */}
-              {packageData.map(([key,value])=>(
-                <button
-                key={key}
-                onClick={()=>setActiveTab(key)}
-                className={`${
-                  activeTab === key
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm capitalize`}
-              >
-                {key}
-                </button>
-              ))}
+              {packageData.map(([key, value]) => {
+                const [name, extension] = key.split('.');
+                const formattedName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+
+                return (
+                  <button
+                    key={key}
+                    onClick={() => setActiveTab(key)}
+                    className={`${
+                      activeTab === key
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm capitalize`}
+                  >
+                    {formattedName}
+                  </button>
+                );
+              })}
             </nav>
           </div>
         </div>

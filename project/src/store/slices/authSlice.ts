@@ -56,7 +56,6 @@ export const login = createAsyncThunk(
 
     // Decode JWT
     const decodedToken = jwtDecode<DecodedToken>(token);
-    console.log(decodedToken);
 
     // Return the user object
     return {

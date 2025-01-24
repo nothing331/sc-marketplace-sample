@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { Package } from '../types/package';
+import network_service from '../utils/network_service';
+import { PACKAGE } from '../constants/api_constants';
 
 // Simulated API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -29,7 +31,9 @@ export const fetchPackages = async (page: number): Promise<Package[]> => {
   // await delay(1000); // Simulate network delay
   // return generateDummyPackages(page);
   try {
-    const response = await axios.get('https://4275r.wiremockapi.cloud/packages/dummy');
+    // const response = await axios.get('https://4275r.wiremockapi.cloud/packages/dummy');
+    const response = await network_service.get<any>({url:PACKAGE})
+    console.log(response.data.packages)
     return response.data.packages; 
   } catch (error) {
     console.error('Error fetching packages:', error);

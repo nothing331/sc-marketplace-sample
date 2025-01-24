@@ -15,7 +15,7 @@ const SignupPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [errorFromAPI, setErrorFromAPI] = useState('');
+  const [errorFromAPI, setErrorFromAPI] = useState<string | null>(null);
 
   const {error, status} =useSelector((state:RootState)=>state.auth);
 
@@ -24,16 +24,12 @@ const SignupPage: React.FC = () => {
     
       try {
         await dispatch(signup({ email, password,name, username })).unwrap();
-      } catch (err) {
-        console.error('Failed to login:', err);
+        navigate('/marketplace');
+      } catch (error: any) {
+        setErrorFromAPI(error.message); // Set error from API
+        console.log('Login Error:', error);
       }
       
-      if(error){
-        setErrorFromAPI(error);
-        console.log(error);
-      }else{
-        navigate('/marketplace');
-      }
     // try {
     //   await dispatch(signup({ email, password,name, username })).unwrap();
     // } catch (err) {
@@ -131,7 +127,7 @@ const SignupPage: React.FC = () => {
           >
             {status === 'loading' ? 'Logging in...' : 'Sign up'}
           </button>
-          {error && <p style={{ color: 'red' }}>Error: {errorFromAPI}</p>}
+          {errorFromAPI && <p style={{ color: 'red' }}>Error: {errorFromAPI}</p>}
           {/* {error && <p style={{ color: 'red', textAlign:'center'}}>Invalid Email</p>} */}
         </form>
         <div className="text-center">

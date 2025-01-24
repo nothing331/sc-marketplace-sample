@@ -42,13 +42,13 @@ const LoginPage: React.FC = () => {
         await dispatch(login({ username, password })).unwrap(); // Call login thunk
         navigate('/marketplace'); // Navigate on success
       } catch (error: any) {
-        // setErrorFromAPI(error); // Set error from API
+        setErrorFromAPI(error.message); // Set error from API
         console.log('Login Error:', error);
       }
-      if(error){
-        console.log(error)
-        setErrorFromAPI(error)
-      }
+      // if(error){
+      //   console.log(error)
+      //   setErrorFromAPI(error)
+      // }
     
   };
 
