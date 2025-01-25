@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Package } from '../../types/package';
-import { fetchPackages as fetchPackagesApi } from '../../api/packages';
+import network_service from '../../utils/network_service';
+import { PACKAGE_URL } from '../../constants/api_constants';
 
 interface PackagesState {
   items: Package[];
@@ -32,9 +33,14 @@ const initialState: PackagesState = {
 
 export const fetchPackages = createAsyncThunk(
   'packages/fetchPackages',
-  async (page: number) => {
-    const response = await fetchPackagesApi(page);
-    return response;
+  async () => {
+    try {
+      const response = await network_service.get<any>({url:PACKAGE_URL})
+      return  response.data.packages; 
+    } catch (error) {
+      console.error('Error fetching packages:', error);
+      throw error; 
+    }
   }
 );
 

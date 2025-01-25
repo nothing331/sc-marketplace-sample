@@ -12,9 +12,9 @@ interface PackageCardProps {
 
 export const PackageCard: React.FC<PackageCardProps> = ({ package: pkg }) => {
   const dispatch = useDispatch();
+  const navigate=useNavigate();
   const starredPackages = useSelector((state: RootState) => state.packages.starredPackages);
   const isStarred = starredPackages.includes(pkg._id);
-  const navigate=useNavigate();
   const handlePackageClick = (event: React.MouseEvent<HTMLDivElement>, packageId: string) => {
     event.preventDefault();
     navigate(`/package/${packageId}`);
@@ -26,7 +26,7 @@ export const PackageCard: React.FC<PackageCardProps> = ({ package: pkg }) => {
       className="bg-white hover:cursor-pointer dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg"
     >
       <img
-        // src={pkg.thumbnail}
+        src={(pkg.thumbnail && pkg.thumbnail!="")?pkg.thumbnail:"https://salescode.ai/wp-content/uploads/2023/04/Square-Teal-.png"}
         alt={pkg.packageName}
         className="w-full h-48 object-cover"
       />
@@ -49,23 +49,18 @@ export const PackageCard: React.FC<PackageCardProps> = ({ package: pkg }) => {
             <Star className="w-5 h-5 fill-current" />
           </button>
         </div>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-1">
           {pkg.description}
         </p>
-        <TruncateText text={pkg.description}/>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
+              <p className='text-sm text-gray-500 dark:text-gray-400'>12</p>
               <Star className="w-4 h-4 text-yellow-400" />
-              {/* <span className="text-sm text-gray-600 dark:text-gray-300">
-                {pkg.rating.toFixed(1)}
-              </span> */}
             </div>
             <div className="flex items-center space-x-1">
+              <p className='text-sm text-gray-500 dark:text-gray-400'>14</p>
               <Eye className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-              {/* <span className="text-sm text-gray-600 dark:text-gray-300">
-                {pkg.downloads.toLocaleString()}
-              </span> */}
             </div>
           </div>
           <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -76,25 +71,3 @@ export const PackageCard: React.FC<PackageCardProps> = ({ package: pkg }) => {
     </div>
   );
 };
-
-
-
-interface TruncateTextProp{
-  text: string;
-  wordLimit?: number;
-}
-
-const TruncateText= ({text, wordLimit=60}: TruncateTextProp) =>{
-    const word = text;
-    const shouldTruncate = word.length > wordLimit;
-    const displayText = shouldTruncate ? word.slice(0, wordLimit) : text;
-
-    return(
-      <p className="text-sm text-gray-600 dark:text-gray-400">
-        {displayText}
-        {shouldTruncate && (
-          <span className="text-gray-500">...</span>
-        )}
-      </p>
-    )
-}

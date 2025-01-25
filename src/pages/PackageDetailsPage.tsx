@@ -1,130 +1,40 @@
-import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Star, Eye, MessageSquare, Clock, Package as PackageIcon } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { Star, Eye, AlertTriangle } from 'lucide-react';
+import {  useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { ReadmeTab } from '../components/Readme';
-import { ReviewsTab } from '../components/Review';
-import { Review } from '../types/reviews';
-import { ChangelogTab } from '../components/Chnagelog';
-import { Changelog } from '../types/changelog';
 import { PackageCard } from '../components/PackageCard';
-import MarkdownComp from '../components/MarkdownComp';
+import { Tabs, TabsData } from '../components/Tabs';
 
-
-
-interface Version {
-  version: string;
-  releaseDate: string;
-  changes: string[];
-}
 
 export const PackageDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  ;
-  
-  const packageDetails = useSelector((state: RootState) => 
-    state.packages.items.find(p => p._id === id)
+
+  var packageDetails = useSelector((state: RootState) =>
+    state.packages.items.find((p) => p._id === id)
   );
 
-  const [activeTab, setActiveTab] = useState<string>('README.md')
+  const { items } = useSelector((state: RootState) => state.packages);
+  const relatedPackage = items.slice(0, 3);
 
-  const { items  } = useSelector((state: RootState) => state.packages);
-  const relatedPackage=items.slice(0,3);
+  if (!packageDetails) return (
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-50 dark:bg-gray-900">
+      <AlertTriangle className="w-16 h-16 text-red-500 mb-4" />
+      <p className="text-2xl font-semibold text-gray-700 dark:text-gray-300">
+        No such package exists.
+      </p>
+      <p className="text-gray-600 dark:text-gray-400 text-lg mt-2">
+        Please check the package ID or try again later.
+      </p>
+    </div>
+  );
 
-  // useEffect(() => {
-  //   console.log(packageDetails?.availableMarkdowns)
-  // }, [])
-  
-
-  
-
-  const mockVersions: Changelog[] = [
-    {
-      version: '1.2.0',
-      releaseDate: '2024-02-17',
-      changes: [
-        'Added new animation features',
-        'Fixed performance issues',
-        'Updated documentation'
-      ]
+  const tabsData: TabsData = Object.entries(packageDetails!.availableMarkdowns).reduce(
+    (acc, [key, value]) => {
+      acc[key] = value;
+      return acc;
     },
-    {
-      version: '1.1.0',
-      releaseDate: '2024-02-15',
-      changes: [
-        'Added new animation features',
-        'Fixed performance issues',
-      ]
-    },
-    {
-      version: '0.2.0',
-      releaseDate: '2023-05-15',
-      changes: [
-        'Updated documentation'
-      ]
-    },
-    {
-      version: '0.1.0',
-      releaseDate: '2023-02-15',
-      changes: [
-        'Added new animation features',
-        'Fixed performance issues',
-        'Updated documentation'
-      ]
-    },
-  ];
-
-  const data = packageDetails!.availableMarkdowns
-  const packageData = Object.entries(packageDetails!.availableMarkdowns)
-
-  const mockReview : Review[]=[
-    {
-      id: '1',
-      userName: 'John Doe',
-      rating: 5,
-      comment: 'Excellent package! Very easy to use and well documented.',
-      createdAt: '2024-02-20T10:00:00Z'
-    },
-    {
-      id: '2',
-      userName: 'John Doe2',
-      rating: 3,
-      comment: 'Excellent package! Very easy to use and well documented.',
-      createdAt: '2024-02-20T10:00:00Z'
-    },
-    {
-      id: '3',
-      userName: 'John Doe3',
-      rating: 1,
-      comment: 'Worse package.',
-      createdAt: '2024-02-20T10:00:00Z'
-    }
-  ]
-
-  if (!packageDetails) return null;
-
-  const tabs = [
-    {
-      name: 'readme',
-      label: 'Readme',
-      // content: <ReadmeTab screenshots={packageDetails.screenshots} readme={packageDetails.readme}/>
-    },
-    {
-      name: 'reviews',
-      label: 'Reviews',
-      content: <ReviewsTab reviews={mockReview}/>
-    },
-    {
-      name: 'changelog',
-      label: 'Changelog',
-      content: <ChangelogTab versions={mockVersions}/>
-    }
-  ];
-
-  if (!packageDetails) return null;
-
-  
+    {} as TabsData
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -141,62 +51,23 @@ export const PackageDetailsPage: React.FC = () => {
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center">
+                <p className='text-sm text-gray-500 dark:text-gray-400 mr-2'>12</p>
                 <Star className="w-5 h-5 text-yellow-400 mr-1" />
-                {/* <span className="text-lg font-semibold">{packageDetails.rating.toFixed(1)}</span> */}
               </div>
               <div className="flex items-center">
+                <p className='text-sm text-gray-500 dark:text-gray-400 mr-2'>14</p>
                 <Eye className="w-5 h-5 text-gray-500 mr-1" />
-                {/* <span className="text-lg">{packageDetails.downloads.toLocaleString()}</span> */}
               </div>
             </div>
           </div>
-          
-          {/* Tabs */}
-          <div className="border-b border-gray-200 dark:border-gray-700">
-            <nav className="-mb-px flex space-x-8">
-              {/* {tabs.map((tab) => (
-                <button
-                  key={tab.name}
-                  onClick={() => setActiveTab(tab.name)}
-                  className={`${
-                    activeTab === tab.name
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm capitalize`}
-                >
-                  {tab.label}
-                </button>
-              ))} */}
-              {packageData.map(([key, value]) => {
-                const [name, extension] = key.split('.');
-                const formattedName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-
-                return (
-                  <button
-                    key={key}
-                    onClick={() => setActiveTab(key)}
-                    className={`${
-                      activeTab === key
-                        ? 'border-blue-500 text-blue-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                    } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm capitalize`}
-                  >
-                    {formattedName}
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
         </div>
-        
+
         {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            {/* Dynamically render the active tab content */}
-            {/* {tabs.find(tab => tab.name === activeTab)?.content} */}
-            <MarkdownComp markdown={packageData.find(([key]) => key === activeTab)?.[1]}/>
+            <Tabs tabsData={tabsData} />
           </div>
-          
+
           {/* Sidebar */}
           <div className="space-y-8">
             {/* Author info */}
@@ -206,7 +77,7 @@ export const PackageDetailsPage: React.FC = () => {
               </h3>
               <div className="flex items-center mb-4">
                 <img
-                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(packageDetails.author)}`}
+                  src={`https://robohash.org/${packageDetails.user.username}?set=set3`}
                   alt={packageDetails.user.username}
                   className="w-12 h-12 rounded-full mr-4"
                 />
@@ -218,7 +89,45 @@ export const PackageDetailsPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            
+
+
+            {/* Document URLS */}
+            {packageDetails.documentUrls && (
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+                  Resource Links
+                </h3>
+                <ul className="space-y-3">
+                  {packageDetails.documentUrls.map((url) => (
+                    <li key={url}>
+                      <a
+                        href={`https://${url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 font-medium hover:underline hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors duration-300"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-5 h-5"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M13.5 10.5L21 3m-5.25 0H21v5.25M9 15.75L3 21m7.5-10.5L3 21M9 15.75h5.25"
+                          />
+                        </svg>
+                        <span>{url}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {/* Related packages */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
               <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
@@ -226,7 +135,7 @@ export const PackageDetailsPage: React.FC = () => {
               </h3>
               <div className="space-y-4">
                 {relatedPackage.map((pkg) => (
-                  <PackageCard key={pkg._id} package={pkg}  />
+                  <PackageCard key={pkg._id} package={pkg} />
                 ))}
               </div>
             </div>

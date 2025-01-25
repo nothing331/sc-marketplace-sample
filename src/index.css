@@ -6,6 +6,11 @@
   all: revert;
 }
 
+.markdown a {
+  color: #1E90FF; /* Blue color */
+  text-decoration: underline;
+}
+
 @keyframes gradient-xy {
   0%, 100% {
     background-position: 0% 50%;

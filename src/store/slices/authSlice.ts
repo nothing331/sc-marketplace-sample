@@ -1,9 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { User } from '../../types/user';
-import axios from 'axios';
-import { LOGIN, SIGNUP } from '../../constants/api_constants';
+import { LOGIN_URL, SIGNUP_URL } from '../../constants/api_constants';
 import network_service, { NetworkException } from '../../utils/network_service';
-import { url } from 'inspector';
 import { jwtDecode } from 'jwt-decode';
 
 interface AuthState {
@@ -12,8 +10,24 @@ interface AuthState {
   error: string | null;
 }
 
+const getInitialUser = (): User | null => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    localStorage.setItem('token', token);
+    const decodedToken = jwtDecode<DecodedToken>(token);
+    return {
+      id: decodedToken.id,
+      email: decodedToken.email,
+      displayName: decodedToken.username,
+      fullName: decodedToken.username,
+      avatarUrl: `https://robohash.org/${decodedToken.username}?set=set3`,
+    } as User; 
+  }
+  return null;
+};
+
 const initialState: AuthState = {
-  user: null,
+  user: getInitialUser(),
   status: 'idle',
   error: null,
 };
@@ -26,8 +40,6 @@ interface DecodedToken {
   username: string;
 }
 
-let jwtToken;
-
 export const login = createAsyncThunk(
   'auth/login',
   async ({ username, password }: { username: string; password: string }, { rejectWithValue }) => {
@@ -39,7 +51,7 @@ export const login = createAsyncThunk(
 
     var response;
     try {
-      response = await network_service.post<any>({url:LOGIN,body:payload});
+      response = await network_service.post<any>({url:LOGIN_URL,body:payload});
     }catch (error) {
       const exc= error as NetworkException;
       console.log(exc)
@@ -49,10 +61,10 @@ export const login = createAsyncThunk(
 
     const token = response?.data['token'];
       if (!token) {
-        throw new Error('Token not found in response'); // Handle missing token
+        throw new Error('Token not found in response'); 
       }
 
-      localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem('token', token);
 
     // Decode JWT
     const decodedToken = jwtDecode<DecodedToken>(token);
@@ -63,33 +75,8 @@ export const login = createAsyncThunk(
       email: decodedToken.email,
       displayName: decodedToken.username,
       fullName: decodedToken.username,
-      avatarUrl: 'https://avatar.iran.liara.run/public',
+      avatarUrl: `https://robohash.org/${decodedToken.username}?set=set3`,
     } as User;
-
-    // await axios.post(LOGIN,payload)
-    // .then(response => {
-    //   jwtToken = response.data;
-    //   localStorage.setItem('responseData', JSON.stringify(jwtToken));
-    //   console.log('Response:', response.data);
-    // })
-    // .catch(error => {
-    //   console.error('Error:', error);
-
-    //   return rejectWithValue(error.response?.data?.message || 'Failed to login');
-    // });
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-    // return {
-    //   id: '1',
-    //   email:'',
-    //   displayName: username,
-    //   fullName:'',
-    //   avatarUrl: 'https://avatar.iran.liara.run/public',
-    //   createdAt: new Date().toISOString(),
-    //   publishedPackages: [],
-    //   pendingPackages: [],
-    //   rejectedPackages: [],
-    //   starredPackages: [],
-    // } as User;
   }
 );
 
@@ -105,7 +92,7 @@ export const signup = createAsyncThunk(
 
     var response;
     try {
-      response = await network_service.post<any>({url:SIGNUP,body:payload});
+      response = await network_service.post<any>({url:SIGNUP_URL,body:payload});
     }catch (error) {
       const exc= error as NetworkException;
       console.log(exc)
@@ -114,12 +101,20 @@ export const signup = createAsyncThunk(
     }
 
 
-    localStorage.setItem('token', JSON.stringify(response!.data['token']));
+    const token = response?.data['token'];
+      if (!token) {
+        throw new Error('Token not found in response');
+      }
+
+    localStorage.setItem('token', token);
+
+    // Decode JWT
+    const decodedToken = jwtDecode<DecodedToken>(token);
     
     return {
-      id: '2',
-      email,
-      displayName: username,
+      id: decodedToken.id,
+      email:decodedToken.email,
+      displayName: decodedToken.username,
       fullName: name,
       avatarUrl: 'https://avatar.iran.liara.run/public',
     } as User;

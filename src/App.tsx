@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RootState } from './store/store';
 import { LandingPage } from './pages/LandingPage';
 import { MarketplacePage } from './pages/MarketplacePage';
 import { ProfilePage } from './pages/ProfilePage';
 import { PackageDetailsPage } from './pages/PackageDetailsPage';
-import { AuthModal } from './components/AuthModal';
 import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -15,7 +14,6 @@ import AboutUs from './pages/AboutUs';
 
 export default function App() {
   const theme = useSelector((state: RootState) => state.theme);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.className = theme;
@@ -35,7 +33,6 @@ export default function App() {
           <Route path="/about" element={<AboutUs/>}/>
         </Route>
       </Routes>
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </BrowserRouter>
   );
 }

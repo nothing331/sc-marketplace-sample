@@ -29,13 +29,6 @@ const SignupPage: React.FC = () => {
         setErrorFromAPI(error.message); // Set error from API
         console.log('Login Error:', error);
       }
-      
-    // try {
-    //   await dispatch(signup({ email, password,name, username })).unwrap();
-    // } catch (err) {
-    //   console.error('Failed to login:', err);
-    // }
-    // navigate('/marketplace');
   };
 
   return (
