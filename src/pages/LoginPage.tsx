@@ -10,45 +10,22 @@ const useAppDispatch = () => useDispatch<AppDispatch>();
 const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  // const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  // const [errorFromAPI, setErrorFromAPI] = useState<any>(null);
   const [errorFromAPI, setErrorFromAPI] = useState<string | null>(null);
 
-  const {error, status} =useSelector((state:RootState)=>state.auth);
+  const {status} =useSelector((state:RootState)=>state.auth);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorFromAPI(null);
-    // Mock login logic
-      // try{
-      //   await dispatch(login({ username, password})).unwrap();
-      // }catch(error){
-      //   console.log('Error:', error);
-      //   findError.current = error
-      //   // setErrorFromAPI(error)
-      // }
-      // // setErrorFromAPI(error)
-      // if(findError){
-      //   // setErrorFromAPI(error)
-      //   console.log(findError);
-        
-      // }else{
-      //   navigate('/marketplace');
-      // }
       try {
-        await dispatch(login({ username, password })).unwrap(); // Call login thunk
-        navigate('/marketplace'); // Navigate on success
+        await dispatch(login({ username, password })).unwrap();
+        navigate('/profile'); 
       } catch (error: any) {
-        setErrorFromAPI(error.message); // Set error from API
-        console.log('Login Error:', error);
+        setErrorFromAPI(error.message);
       }
-      // if(error){
-      //   console.log(error)
-      //   setErrorFromAPI(error)
-      // }
     
   };
 

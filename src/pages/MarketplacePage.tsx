@@ -6,11 +6,20 @@ import Carousel from '../components/Carousel';
 import { SearchBar } from '../components/SearchBar';
 export const MarketplacePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { items } = useSelector((state: RootState) => state.packages);
+  const { items ,status} = useSelector((state: RootState) => state.packages);
 
   useEffect(() => {
     dispatch(fetchPackages());
   }, []);
+
+  if(status=='loading'){
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-500"></div>
+      </div>
+    );
+  }
+
   return (
     <>
     <SearchBar/>

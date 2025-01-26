@@ -17,16 +17,16 @@ const SignupPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorFromAPI, setErrorFromAPI] = useState<string | null>(null);
 
-  const {error, status} =useSelector((state:RootState)=>state.auth);
+  const {status} =useSelector((state:RootState)=>state.auth);
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     
       try {
         await dispatch(signup({ email, password,name, username })).unwrap();
-        navigate('/marketplace');
+        navigate('/profile');
       } catch (error: any) {
-        setErrorFromAPI(error.message); // Set error from API
+        setErrorFromAPI(error.message);
         console.log('Login Error:', error);
       }
   };

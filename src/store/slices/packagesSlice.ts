@@ -7,8 +7,6 @@ interface PackagesState {
   items: Package[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
-  page: number;
-  hasMore: boolean;
   searchTerm: string;
   filters: {
     category: string;
@@ -21,8 +19,6 @@ const initialState: PackagesState = {
   items: [],
   status: 'idle',
   error: null,
-  page: 1,
-  hasMore: true,
   searchTerm: '',
   filters: {
     category: '',
@@ -35,7 +31,7 @@ export const fetchPackages = createAsyncThunk(
   'packages/fetchPackages',
   async () => {
     try {
-      const response = await network_service.get<any>({url:PACKAGE_URL})
+      const response = await network_service.get<any>({url:PACKAGE_URL,timeOutDuration:10000});
       return  response.data.packages; 
     } catch (error) {
       console.error('Error fetching packages:', error);
@@ -50,21 +46,15 @@ const packagesSlice = createSlice({
   reducers: {
     resetPackages: (state) => {
       state.items = [];
-      state.page = 1;
-      state.hasMore = true;
     },
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
       state.items = [];
-      state.page = 1;
-      state.hasMore = true;
     },
     setFilter: (state, action) => {
       const { type, value } = action.payload;
       state.filters[type as keyof typeof state.filters] = value;
       state.items = [];
-      state.page = 1;
-      state.hasMore = true;
     },
     toggleStar: (state, action) => {
       const packageId = action.payload;
@@ -83,9 +73,7 @@ const packagesSlice = createSlice({
       })
       .addCase(fetchPackages.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.items = [...state.items, ...action.payload];
-        state.page += 1;
-        state.hasMore = action.payload.length > 0;
+        state.items = [...action.payload];
       })
       .addCase(fetchPackages.rejected, (state, action) => {
         state.status = 'failed';

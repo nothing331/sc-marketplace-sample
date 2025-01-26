@@ -28,7 +28,7 @@ export const NavbarWithMegaMenu: React.FC = () => {
    <header className="bg-white shadow-md transition-colors duration-200 dark:bg-gray-900 dark:shadow-gray-800/30">
      <div className="mx-auto max-w-screen-xl px-4 py-2">
        <div className="flex items-center justify-between">
-         <a onClick={() => navigate("/")}  className="text-xl font-bold text-gray-900 dark:text-white">
+         <a onClick={() => navigate("/")}  className="text-xl font-bold text-gray-900 dark:text-white hover:cursor-pointer">
            Sales<span className="text-blue-500 dark:text-blue-400">code</span>
          </a>
 
