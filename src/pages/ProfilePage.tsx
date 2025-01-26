@@ -4,6 +4,7 @@ import { RootState } from "../store/store";
 import { logout } from "../store/slices/authSlice";
 import { useNavigate } from "react-router";
 import network_service from "../utils/network_service";
+import { USER_PACKAGE_URL } from "../constants/api_constants";
 
 type PackageStatus = "published" | "rejected" | "pending" | "starred";
 
@@ -31,7 +32,7 @@ const ProfilePage: React.FC = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await network_service.get<any>({
-          url: `/package?status=${status.toUpperCase()}`,
+          url: `${USER_PACKAGE_URL}?status=${status.toUpperCase()}`,
           headers: {
             Authorization: `Bearer ${token}`,
           },
