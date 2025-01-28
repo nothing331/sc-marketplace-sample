@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import { DocsPage } from './pages/DocsPage';
 import AboutUs from './pages/AboutUs';
+import ReviewPackages from './pages/ReviewPackages';
 
 export default function App() {
   const theme = useSelector((state: RootState) => state.theme);
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/package/:id" element={<PackageDetailsPage />} />
           <Route path="/docs" element={<DocsPage/>}/>
           <Route path="/about" element={<AboutUs/>}/>
+          <Route  path="/review" element={<ReviewPackages/>} />
         </Route>
       </Routes>
     </BrowserRouter>
