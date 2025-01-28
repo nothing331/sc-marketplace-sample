@@ -82,6 +82,11 @@ const ProfilePage: React.FC = () => {
               <button className="w-full px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md">
                 Change Password
               </button>
+              <button 
+                className="w-full px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md"
+                onClick={()=>{navigate('/review')}}>
+                Review Packages
+              </button>
               <button
                 className="w-full px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-500 hover:text-white rounded-md"
                 onClick={handleLogout}
